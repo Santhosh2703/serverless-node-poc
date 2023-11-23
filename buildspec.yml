@@ -8,6 +8,7 @@ phases:
       - echo Installing dependencies
       - npm install
       - npm install -g serverless
+      - npm install serverless-domain-manager
 
   pre_build:
     commands:
