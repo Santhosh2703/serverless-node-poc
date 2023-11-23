@@ -2,6 +2,9 @@ service: express-sls-app
 
 custom:
   secrets: ${file(secrets.json)}
+  customDomain:
+    domainName: serverless-api.bitcotapps.com  # Replace with your actual domain
+    basePath: ''  # Use an empty string for the root path
 
 provider:
   name: aws
