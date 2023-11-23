@@ -5,6 +5,7 @@ custom:
   customDomain:
     domainName: serverless-api.bitcotapps.com  # Replace with your actual domain
     basePath: ''  # Use an empty string for the root path
+    stage: ${self:provider.stage}
 
 provider:
   name: aws
@@ -32,5 +33,5 @@ functions:
           method: ANY
           cors: true
 
-# plugins:
-#   - serverless-offline
+plugins:
+ - serverless-domain-manager
