@@ -2,6 +2,6 @@ const express = require('express')
 const sls = require('serverless-http')
 const app = express()
 app.get('/', async (req, res, next) => {
-  res.status(200).send('Hello World!')
+  res.status(200).send('Hello World! Sample POC for Serverless framework with CI/CD')
 })
 module.exports.server = sls(app)
