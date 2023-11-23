@@ -12,8 +12,7 @@ phases:
   pre_build:
     commands:
       - echo Fetching Git metadata
-      - export GIT_COMMIT_HASH=$(git rev-parse HEAD)
-      - export GIT_COMMITTER_NAME=$(git log -1 --pretty=format:'%an')
+      - export GIT_COMMIT_HASH=$CODEBUILD_RESOLVED_SOURCE_VERSION
       - export BUILD_TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
   build:

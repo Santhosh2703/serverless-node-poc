@@ -10,6 +10,8 @@ provider:
   region: us-east-1
   environment: 
     NODE_ENV: ${self:custom.secrets.NODE_ENV}
+    DEPLOYED_AT: ${env:BUILD_TIMESTAMP}
+    GIT_HASH: ${env:GIT_COMMIT_HASH}
 
 functions:
   app:
