@@ -26,7 +26,7 @@ phases:
     commands:
       - echo Build completed on `date`
       # - sls deploy --stage $STAGE_NAME
-      - sls deploy
+      - sls remove
       - echo Deployed with Git hash $GIT_COMMIT_HASH, committer $GIT_COMMITTER_NAME at $BUILD_TIMESTAMP
 
 artifacts:
