@@ -9,16 +9,16 @@ custom:
 
 provider:
   name: aws
-  stackTags: # Tags for the CloudFormation stack
-    DeployedAt: ${env:BUILD_TIMESTAMP}
-    GitHash: ${env:GIT_COMMIT_HASH}
+  # stackTags: # Tags for the CloudFormation stack
+  #   DeployedAt: ${env:BUILD_TIMESTAMP}
+  #   GitHash: ${env:GIT_COMMIT_HASH}
   runtime: nodejs14.x
   stage: production
   region: us-east-1
   environment: 
     NODE_ENV: ${self:custom.secrets.NODE_ENV}
-    DEPLOYED_AT: ${env:BUILD_TIMESTAMP}
-    GIT_HASH: ${env:GIT_COMMIT_HASH}
+    # DEPLOYED_AT: ${env:BUILD_TIMESTAMP}
+    # GIT_HASH: ${env:GIT_COMMIT_HASH}
 
 functions:
   app:
