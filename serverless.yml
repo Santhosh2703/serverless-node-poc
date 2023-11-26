@@ -3,7 +3,7 @@ service: express-sls-app
 custom:
   secrets: ${file(secrets.json)}
   customDomain:
-    domainName: serverless-api.bitcotapps.com  # Replace with your actual domain
+    domainName: serverless-api-stage.bitcotapps.com  # Replace with your actual domain
     basePath: ''  # Use an empty string for the root path
     stage: ${self:provider.stage}
 
@@ -13,7 +13,7 @@ provider:
     DeployedAt: ${env:BUILD_TIMESTAMP}
     GitHash: ${env:GIT_COMMIT_HASH}
   runtime: nodejs14.x
-  stage: production
+  stage: stage
   region: us-east-1
   environment: 
     NODE_ENV: ${self:custom.secrets.NODE_ENV}
