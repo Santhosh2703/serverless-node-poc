@@ -1,0 +1,37 @@
+service: express-sls-app-service2
+
+custom:
+  secrets: ${file(secrets.json)}
+  customDomain:
+    domainName: service2-api.bitcotapps.com  # Replace with your actual domain
+    basePath: ''  # Use an empty string for the root path
+    stage: ${self:provider.stage}
+
+provider:
+  name: aws
+  stackTags: # Tags for the CloudFormation stack
+    DeployedAt: ${env:BUILD_TIMESTAMP}
+    GitHash: ${env:GIT_COMMIT_HASH}
+  runtime: nodejs14.x
+  stage: production
+  region: us-west-2
+  environment:
+    NODE_ENV: ${self:custom.secrets.NODE_ENV}
+    DEPLOYED_AT: ${env:BUILD_TIMESTAMP}
+    GIT_HASH: ${env:GIT_COMMIT_HASH}
+
+functions:
+  app:
+    handler: app.server
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
+plugins:
+ - serverless-domain-manager

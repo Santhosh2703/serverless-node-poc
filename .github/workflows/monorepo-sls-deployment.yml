@@ -1,0 +1,76 @@
+name: Deploy Services on Monorepo
+
+on:
+  push:
+    branches: [mono-repo-cicd] # Set this to the branch you want to deploy from
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [service-1, service-2, service-3, service-4]  # List of services
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14'  # Define the Node.js version
+
+    - name: Determine Changed Services
+      id: diff
+      run: |
+        if [ $(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^${{ matrix.service }}/' | wc -l) -gt 0 ]; then
+          echo "::set-output name=has_changes::true"
+        else
+          echo "::set-output name=has_changes::false"
+        fi
+
+    - name: Deploy if Changed
+      if: steps.diff.outputs.has_changes == 'true'
+      run: |
+        cd ${{ matrix.service }}
+        npm install
+        npm install -g serverless
+        sls deploy --stage ${GITHUB_REF##*/}
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14'  # Set this to your Node.js version
+
+    - name: Install Dependencies
+      run: |
+        npm install
+        npm install -g serverless
+        npm install serverless-domain-manager
+
+    - name: Capture Git Commit Hash and Timestamp
+      run: |
+        echo "GIT_COMMIT_HASH=$(git rev-parse HEAD)" >> $GITHUB_ENV
+        echo "BUILD_TIMESTAMP=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+
+    - name: Deploy to AWS
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'us-west-2'  # Set your AWS region
+        GIT_COMMIT_HASH: ${{ env.GIT_COMMIT_HASH }}
+        BUILD_TIMESTAMP: ${{ env.BUILD_TIMESTAMP }}
+      run: sls deploy
