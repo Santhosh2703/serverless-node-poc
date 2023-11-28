@@ -10,7 +10,7 @@ console.log('Deployed At:', deployedAt);
 console.log('Git Hash:', gitHash);
 
 app.get('/', async (req, res, next) => {
-  res.status(200).send('Hi! Monorepo CI/CD with GitHub Actions - service1');
+  res.status(200).send('Hello! Monorepo CI/CD with GitHub Actions - service1');
 });
 
 module.exports.server = sls(app);
