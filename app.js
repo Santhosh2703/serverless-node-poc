@@ -10,7 +10,7 @@ console.log('Deployed At:', deployedAt);
 console.log('Git Hash:', gitHash);
 
 app.get('/', async (req, res, next) => {
-  res.status(200).send('Hello World! Sample POC for Serverless framework with CI/CD');
+  res.status(200).send('Hello! Sample POC for Serverless framework with CI/CD with GitHub actions');
 });
 
 module.exports.server = sls(app);
