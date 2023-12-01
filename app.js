@@ -10,7 +10,7 @@ console.log('Deployed At:', deployedAt);
 console.log('Git Hash:', gitHash);
 
 app.get('/', async (req, res, next) => {
-  res.status(200).send('Hello World! Sample POC for Serverless framework with AWS Codepipeline for CI/CD');
+  res.status(200).send('Hello! Sample POC for Serverless framework with AWS Codepipeline for CI/CD');
 });
 
 module.exports.server = sls(app);
